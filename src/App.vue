@@ -1,47 +1,38 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="box">
+    <input v-model="textInput" id="text-input"></input>
+    <button @click="checkInput" id="check-btn">Check</button>
+    <div id="result">Result: {{ result }}</div>
+  </div>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      textInput: '',
+      result: ''
+    };
+  },
+  methods: {
+    checkInput() {
+      const lowercaseText = this.textInput.toLowerCase().trim();
+      const regex = /[^a-z0-9]/g;
+      const cleanText = lowercaseText.replace(regex, '');
+      const reversedText = cleanText.split('').reverse().join('');
+
+      if (lowercaseText === "") {
+        this.result = "Please input a value";
+      } else if (cleanText === reversedText) {
+        this.result = lowercaseText + " is a palindrome";
+      } else {
+        this.result = lowercaseText + " is not a palindrome";
+      }
+    }
+  }
+};
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
+/* Add your scoped styles here if needed */
 </style>
